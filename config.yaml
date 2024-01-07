@@ -1,0 +1,97 @@
+Apply_Config: true
+Configuration:
+  Authentication:
+    gofile_api_key: ''
+    gofile_website_token: ''
+    imgur_client_id: ''
+    nudostar_password: ''
+    nudostar_username: ''
+    pixeldrain_api_key: ''
+    reddit_personal_use_script: 'P6dn79hWLYqWA4Jw5H0__A'
+    reddit_secret: 'Zr6mU3GDfIqQdtUP9szvdkkdwi0VsA'
+    simpcity_password: dc420365
+    simpcity_username: ottergrover@gmail.com
+    socialmediagirls_password: ''
+    socialmediagirls_username: ''
+    xbunker_password: ''
+    xbunker_username: ''
+  Files:
+    db_file: download_history.sqlite
+    errored_download_urls_file: Errored_URLs.csv
+    errored_scrape_urls_file: Errored_Scrape_URLs.csv
+    input_file: URLs.txt
+    log_file: downloader.log
+    output_folder: Downloads
+    output_last_forum_post_file: URLs_last_post.txt
+    unsupported_urls_file: Unsupported_URLs.csv
+    variable_cache_file: internal_variable_cache.yaml
+  Forum_Options:
+    output_last_forum_post: true
+    scrape_single_post: false
+    separate_posts: false
+  Ignore:
+    exclude_audio: false
+    exclude_images: false
+    exclude_other: false
+    exclude_videos: false
+    ignore_cache: false
+    ignore_history: false
+    only_hosts: []
+    skip_coomer_ads: false
+    skip_hosts: []
+  JDownloader:
+    apply_jdownloader: true
+    jdownloader_device: JDownloader@dcnetwork
+    jdownloader_password: dc420365
+    jdownloader_username: ottergrover@gmail.com
+  Progress_Options:
+    hide_album_progress: false
+    hide_domain_progress: false
+    hide_file_progress: false
+    hide_forum_progress: false
+    hide_new_progress: false
+    hide_overall_progress: false
+    hide_thread_progress: false
+    refresh_rate: 10
+    visible_rows_albums: 3
+    visible_rows_domains: 3
+    visible_rows_files: 6
+    visible_rows_threads: 2
+  Ratelimiting:
+    connection_timeout: 15
+    ratelimit: 10
+    read_timeout: 300
+    throttle: 1
+  Runtime:
+    allow_insecure_connections: false
+    attempts: 8
+    block_sub_folders: false
+    disable_attempt_limit: false
+    filesize_maximum_images: 0
+    filesize_maximum_other: 0
+    filesize_maximum_videos: 0
+    filesize_minimum_images: 50000
+    filesize_minimum_other: 50000
+    filesize_minimum_videos: 50000
+    include_id: false
+    max_concurrent_albums: 2
+    max_concurrent_domains: 2
+    max_concurrent_downloads_per_domain: 3
+    max_concurrent_threads: 2
+    max_filename_length: 70
+    max_folder_name_length: 40
+    output_errored_urls: true
+    output_unsupported_urls: false
+    proxy: ''
+    remove_bunkr_identifier: false
+    required_free_space: 5
+    skip_check_for_partial_files_and_empty_dirs: false
+    skip_download_mark_completed: false
+    user_agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36"
+  Sorting:
+    sort_directory: Sorted Downloads
+    sort_downloads: false
+    sorted_audio: '{sort_dir}/{base_dir}/Audio'
+    sorted_images: '{sort_dir}/{base_dir}/Images'
+    sorted_others: '{sort_dir}/{base_dir}/Other'
+    sorted_videos: '{sort_dir}/{base_dir}/Videos'
