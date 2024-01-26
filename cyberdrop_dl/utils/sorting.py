@@ -51,10 +51,10 @@ class Sorter:
                 file.unlink()
                 return
             for i in itertools.count(1):
-                dest = dest.parent / f"{dest.stem}{self.incrementer_format.format(i=i)}{dest.suffix}"
-                if not dest.is_file():
+                dest_make = dest.parent / f"{dest.stem}{self.incrementer_format.format(i=i)}{dest.suffix}"
+                if not dest_make.is_file():
                     break
-            file.rename(dest)
+            file.rename(dest_make)
 
     async def check_dir_parents(self) -> bool:
         """Checks if the sort dir is in the download dir"""
@@ -133,7 +133,7 @@ class Sorter:
             width, height = image.size
             resolution = f"{width}x{height}"
             image.close()
-        except PIL.UnidentifiedImageError:
+        except (PIL.UnidentifiedImageError, PIL.Image.DecompressionBombError):
             resolution = "Unknown"
 
         file_date = filedate.File(str(file)).get()
