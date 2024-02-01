@@ -9,7 +9,6 @@ import aiohttp
 import certifi
 from aiohttp import ClientResponse
 from aiolimiter import AsyncLimiter
-from yarl import URL
 
 from cyberdrop_dl.clients.download_client import DownloadClient
 from cyberdrop_dl.clients.errors import DownloadFailure
