@@ -35,6 +35,10 @@ class BunkrrCrawler(Crawler):
 
         await self.set_cookies()
 
+        if "get" in scrape_item.url.host:
+            scrape_item.url = await self.reinforced_link(scrape_item.url)
+            scrape_item.url = await self.get_stream_link(scrape_item.url)
+
         if "a" in scrape_item.url.parts:
             await self.album(scrape_item)
         elif "v" in scrape_item.url.parts:
@@ -112,6 +116,8 @@ class BunkrrCrawler(Crawler):
             except Exception as e:
                 if "get" in link.host:
                     link = await self.reinforced_link(link)
+                    if not link:
+                        return
                     filename, ext = await get_filename_and_ext(link.name)
                 else:
                     filename, ext = await get_filename_and_ext(scrape_item.url.name)
@@ -132,7 +138,13 @@ class BunkrrCrawler(Crawler):
         try:
             filename, ext = await get_filename_and_ext(link.name)
         except NoExtensionFailure:
-            filename, ext = await get_filename_and_ext(scrape_item.url.name)
+            if "get" in link.host:
+                link = await self.reinforced_link(link)
+                if not link:
+                    return
+                filename, ext = await get_filename_and_ext(link.name)
+            else:
+                filename, ext = await get_filename_and_ext(scrape_item.url.name)
 
         await self.handle_file(link, scrape_item, filename, ext)
 
@@ -152,7 +164,7 @@ class BunkrrCrawler(Crawler):
 
     async def get_stream_link(self, url: URL) -> URL:
         """Gets the stream link for a given url"""
-        cdn_possibilities = r"^(?:(?:(?:media-files|cdn|c|pizza|cdn-burger)[0-9]{0,2})|(?:(?:big-taco-|cdn-pizza|cdn-meatballs|cdn-milkshake|meatballs|i.kebab|i.fries)[0-9]{0,2}(?:redir)?))\.bunkr?\.[a-z]{2,3}$"
+        cdn_possibilities = r"^(?:(?:(?:media-files|cdn|c|pizza|cdn-burger|burger|taquito|pizza|fries|meatballs|milkshake|kebab)[0-9]{0,2})|(?:(?:big-taco-|cdn-pizza|cdn-meatballs|cdn-milkshake|i.kebab|i.fries)[0-9]{0,2}(?:redir)?))\.bunkr?\.[a-z]{2,3}$"
 
         if not re.match(cdn_possibilities, url.host):
             return url
