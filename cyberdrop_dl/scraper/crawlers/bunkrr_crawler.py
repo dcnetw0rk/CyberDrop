@@ -35,7 +35,7 @@ class BunkrrCrawler(Crawler):
 
         await self.set_cookies()
 
-        if "get" in scrape_item.url.host:
+        if scrape_item.url.host.startswith("get"):
             scrape_item.url = await self.reinforced_link(scrape_item.url)
             scrape_item.url = await self.get_stream_link(scrape_item.url)
 
@@ -86,6 +86,9 @@ class BunkrrCrawler(Crawler):
                 if file_ext.lower() not in FILE_FORMATS['Images']:
                     src = src.with_host(src.host.replace("i-", ""))
                 new_scrape_item = await self.create_scrape_item(scrape_item, link, "", True, date)
+
+                if "no-image" in src.name:
+                    raise Exception("No image found, reverting to parent")
 
                 if await self.check_complete_from_referer(scrape_item):
                     continue
@@ -164,7 +167,7 @@ class BunkrrCrawler(Crawler):
 
     async def get_stream_link(self, url: URL) -> URL:
         """Gets the stream link for a given url"""
-        cdn_possibilities = r"^(?:(?:(?:media-files|cdn|c|pizza|cdn-burger|cdn-nugget|burger|taquito|pizza|fries|meatballs|milkshake|kebab)[0-9]{0,2})|(?:(?:big-taco-|cdn-pizza|cdn-meatballs|cdn-milkshake|i.kebab|i.fries)[0-9]{0,2}(?:redir)?))\.bunkr?\.[a-z]{2,3}$"
+        cdn_possibilities = r"^(?:(?:(?:media-files|cdn|c|pizza|cdn-burger|cdn-nugget|burger|taquito|pizza|fries|meatballs|milkshake|kebab)[0-9]{0,2})|(?:(?:big-taco-|cdn-pizza|cdn-meatballs|cdn-milkshake|i.kebab|i.fries|i-nugget)[0-9]{0,2}(?:redir)?))\.bunkr?\.[a-z]{2,3}$"
 
         if not re.match(cdn_possibilities, url.host):
             return url
