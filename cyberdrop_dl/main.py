@@ -52,6 +52,27 @@ async def director(manager: Manager) -> None:
     manager.path_manager.startup()
     manager.log_manager.startup()
 
+    logger_debug = logging.getLogger("cyberdrop_dl_debug")
+    from cyberdrop_dl.utils.utilities import DEBUG_VAR
+    if os.getenv("PYCHARM_HOSTED") is not None or manager.config_manager.settings_data['Runtime_Options']['log_level'] == -1:
+        manager.config_manager.settings_data['Runtime_Options']['log_level'] = 10
+        DEBUG_VAR = True
+        
+    if DEBUG_VAR:
+        logger_debug.setLevel(manager.config_manager.settings_data['Runtime_Options']['log_level'])
+        if os.getenv("PYCHARM_HOSTED") is not None:
+            file_handler_debug = logging.FileHandler("../cyberdrop_dl_debug.log", mode="w")
+        else:
+            file_handler_debug = logging.FileHandler("./cyberdrop_dl_debug.log", mode="w")
+        file_handler_debug.setLevel(manager.config_manager.settings_data['Runtime_Options']['log_level'])
+        formatter = logging.Formatter("%(levelname)-8s : %(asctime)s : %(filename)s:%(lineno)d : %(message)s")
+        file_handler_debug.setFormatter(formatter)
+        logger_debug.addHandler(file_handler_debug)
+
+        aiosqlite_log = logging.getLogger("aiosqlite")
+        aiosqlite_log.setLevel(manager.config_manager.settings_data['Runtime_Options']['log_level'])
+        aiosqlite_log.addHandler(file_handler_debug)
+
     while True:
         logger = logging.getLogger("cyberdrop_dl")
         if manager.args_manager.all_configs:
@@ -69,6 +90,9 @@ async def director(manager: Manager) -> None:
 
         logger.setLevel(manager.config_manager.settings_data['Runtime_Options']['log_level'])
         file_handler = logging.FileHandler(manager.path_manager.main_log, mode="w")
+        
+        if DEBUG_VAR:
+            manager.config_manager.settings_data['Runtime_Options']['log_level'] = 10
         file_handler.setLevel(manager.config_manager.settings_data['Runtime_Options']['log_level'])
 
         formatter = logging.Formatter("%(levelname)-8s : %(asctime)s : %(filename)s:%(lineno)d : %(message)s")
@@ -116,8 +140,6 @@ async def director(manager: Manager) -> None:
 
     await log_with_color("\nFinished downloading. Enjoy :)", 'green', 20)
 
-    asyncio.get_event_loop().stop()
-
 
 def main():
     manager = startup()
@@ -132,6 +154,7 @@ def main():
             with contextlib.suppress(Exception):
                 asyncio.run(manager.close())
             exit(1)
+    loop.close()
     sys.exit(0)
 
 
