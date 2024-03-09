@@ -10,6 +10,7 @@ class ArgsManager:
         self.parsed_args = {}
 
         self.proxy = ""
+        self.flaresolverr = ""
 
         self.all_configs = False
         self.retry = False
@@ -18,6 +19,7 @@ class ArgsManager:
         self.no_ui = False
         self.load_config_from_args = False
         self.load_config_name = ""
+        self.vi_mode = None
 
         self.other_links: list = []
 
@@ -37,7 +39,8 @@ class ArgsManager:
 
         self.immediate_download = self.parsed_args['download']
         self.load_config_name = self.parsed_args['config']
-
+        self.vi_mode = self.parsed_args['vi_mode']
+        
         if self.parsed_args['no_ui']:
             self.immediate_download = True
             self.no_ui = True
@@ -67,6 +70,8 @@ class ArgsManager:
 
         if self.parsed_args['proxy']:
             self.proxy = self.parsed_args['proxy']
+        if self.parsed_args['flaresolverr']:
+            self.flaresolverr = self.parsed_args['flaresolverr']
 
         self.other_links = self.parsed_args['links']
 

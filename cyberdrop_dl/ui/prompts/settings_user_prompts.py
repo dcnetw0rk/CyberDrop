@@ -24,7 +24,8 @@ def create_new_config_prompt(manager: Manager) -> None:
     console.print("Create a new config file")
     config_name = inquirer.text(
         message="Enter the name of the config:",
-        validate=EmptyInputValidator("Input should not be empty")
+        validate=EmptyInputValidator("Input should not be empty"),
+        vi_mode=manager.vi_mode,
     ).execute()
     if (manager.path_manager.config_dir / config_name).is_dir():
         console.print(f"Config with name '{config_name}' already exists!")
@@ -52,36 +53,37 @@ def edit_config_values_prompt(manager: Manager) -> None:
                 Choice(6, "Edit Runtime Options"),
                 Choice(7, "Edit Sorting Options"),
                 Choice(8, "Done"),
-            ], long_instruction="ARROW KEYS: Navigate | ENTER: Select"
+            ], long_instruction="ARROW KEYS: Navigate | ENTER: Select",
+            vi_mode=manager.vi_mode,
         ).execute()
 
         # Edit Download Options
         if action == 1:
-            edit_download_options_prompt(config)
+            edit_download_options_prompt(manager, config)
 
         # Edit Input / Output File Paths
         elif action == 2:
-            edit_input_output_file_paths_prompt(config)
+            edit_input_output_file_paths_prompt(manager, config)
 
         # Edit Log File Naming / Path
         elif action == 3:
-            edit_log_file_naming_path_prompt(config)
+            edit_log_file_naming_path_prompt(manager, config)
 
         # Edit File Size Limits
         elif action == 4:
-            edit_file_size_limits_prompt(config)
+            edit_file_size_limits_prompt(manager, config)
 
         # Edit Ignore Options
         elif action == 5:
-            edit_ignore_options_prompt(config)
+            edit_ignore_options_prompt(manager, config)
 
         # Edit Runtime Options
         elif action == 6:
-            edit_runtime_options_prompt(config)
+            edit_runtime_options_prompt(manager, config)
 
         # Edit Sorting Options
         elif action == 7:
-            edit_sort_options_prompt(config)
+            edit_sort_options_prompt(manager, config)
 
         # Done
         elif action == 8:
@@ -90,7 +92,7 @@ def edit_config_values_prompt(manager: Manager) -> None:
             return
 
 
-def edit_download_options_prompt(config: Dict) -> None:
+def edit_download_options_prompt(manager: Manager, config: Dict) -> None:
     """Edit the download options"""
     console.clear()
     action = inquirer.checkbox(
@@ -126,7 +128,8 @@ def edit_download_options_prompt(config: Dict) -> None:
             Choice(value="skip_download_mark_completed",
                    name="Skip Download and Mark it as Completed",
                    enabled=config["Download_Options"]["skip_download_mark_completed"]),
-        ], long_instruction="ARROW KEYS: Navigate | TAB: Select | ENTER: Confirm"
+        ], long_instruction="ARROW KEYS: Navigate | TAB: Select | ENTER: Confirm",
+        vi_mode=manager.vi_mode,
     ).execute()
 
     for key in config["Download_Options"]:
@@ -136,58 +139,66 @@ def edit_download_options_prompt(config: Dict) -> None:
         config["Download_Options"][key] = True
 
 
-def edit_input_output_file_paths_prompt(config: Dict) -> None:
+def edit_input_output_file_paths_prompt(manager: Manager, config: Dict) -> None:
     """Edit the input / output file paths"""
     console.clear()
     console.print("Editing Input / Output File Paths")
     input_file = inquirer.filepath(
         message="Enter the input file path:",
         default=str(config['Files']['input_file']),
-        validate=PathValidator(is_file=True, message="Input is not a file")
+        validate=PathValidator(is_file=True, message="Input is not a file"),
+        vi_mode=manager.vi_mode,
     ).execute()
     download_folder = inquirer.text(
         message="Enter the download folder path:",
         default=str(config['Files']['download_folder']),
-        validate=PathValidator(is_dir=True, message="Input is not a directory")
+        validate=PathValidator(is_dir=True, message="Input is not a directory"),
+        vi_mode=manager.vi_mode,
     ).execute()
 
     config['Files']['input_file'] = Path(input_file)
     config['Files']['download_folder'] = Path(download_folder)
 
 
-def edit_log_file_naming_path_prompt(config: Dict) -> None:
+def edit_log_file_naming_path_prompt(manager: Manager, config: Dict) -> None:
     """Edit the log file naming / path"""
     console.clear()
     console.print("Editing Log File Naming / Path")
     log_folder = inquirer.filepath(
         message="Enter the log folder path:",
         default=str(config['Logs']['log_folder']),
-        validate=PathValidator(is_dir=True, message="Input is not a directory")
+        validate=PathValidator(is_dir=True, message="Input is not a directory"),
+        vi_mode=manager.vi_mode,
     ).execute()
     main_log_filename = inquirer.text(
         message="Enter the main log file name:",
         default=config['Logs']['main_log_filename'],
-        validate=EmptyInputValidator("Input should not be empty")
+        validate=EmptyInputValidator("Input should not be empty"),
+        vi_mode=manager.vi_mode,
     ).execute()
     last_forum_post_filename = inquirer.text(
         message="Enter the last forum post log file name:",
         default=config['Logs']['last_forum_post_filename'],
-        validate=EmptyInputValidator("Input should not be empty")
+        validate=EmptyInputValidator("Input should not be empty"),
+        vi_mode=manager.vi_mode,
     ).execute()
     unsupported_urls_filename = inquirer.text(
         message="Enter the unsupported urls log file name:",
         default=config['Logs']['unsupported_urls_filename'],
-        validate=EmptyInputValidator("Input should not be empty")
+        validate=EmptyInputValidator("Input should not be empty"),
+        vi_mode=manager.vi_mode,
     ).execute()
     download_error_urls_filename = inquirer.text(
         message="Enter the download error urls log file name:",
         default=config['Logs']['download_error_urls_filename'],
-        validate=EmptyInputValidator("Input should not be empty")
+        validate=EmptyInputValidator("Input should not be empty"),
+        vi_mode=manager.vi_mode,
     ).execute()
     scrape_error_urls_filename = inquirer.text(
         message="Enter the scrape error urls log file name:",
         default=config['Logs']['scrape_error_urls_filename'],
-        validate=EmptyInputValidator("Input should not be empty")
+        validate=EmptyInputValidator("Input should not be empty"),
+        vi_mode=manager.vi_mode,
     ).execute()
 
     config['Logs']['log_folder'] = Path(log_folder)
@@ -198,7 +209,7 @@ def edit_log_file_naming_path_prompt(config: Dict) -> None:
     config['Logs']['scrape_error_urls_filename'] = scrape_error_urls_filename
 
 
-def edit_file_size_limits_prompt(config: Dict) -> None:
+def edit_file_size_limits_prompt(manager: Manager, config: Dict) -> None:
     """Edit the file size limits"""
     console.clear()
     console.print("Editing File Size Limits")
@@ -207,36 +218,42 @@ def edit_file_size_limits_prompt(config: Dict) -> None:
         default=int(config['File_Size_Limits']['maximum_image_size']),
         validate=NumberValidator(),
         long_instruction="This value is in bytes (0 is no limit)",
+        vi_mode=manager.vi_mode,
     ).execute()
     maximum_video_size = inquirer.number(
         message="Enter the maximum video size:",
         default=int(config['File_Size_Limits']['maximum_video_size']),
         validate=NumberValidator(),
         long_instruction="This value is in bytes (0 is no limit)",
+        vi_mode=manager.vi_mode,
     ).execute()
     maximum_other_size = inquirer.number(
         message="Enter the maximum other file type size:",
         default=int(config['File_Size_Limits']['maximum_other_size']),
         validate=NumberValidator(),
         long_instruction="This value is in bytes (0 is no limit)",
+        vi_mode=manager.vi_mode,
     ).execute()
     minimum_image_size = inquirer.number(
         message="Enter the minimum image size:",
         default=int(config['File_Size_Limits']['minimum_image_size']),
         validate=NumberValidator(),
         long_instruction="This value is in bytes (0 is no limit)",
+        vi_mode=manager.vi_mode,
     ).execute()
     minimum_video_size = inquirer.number(
         message="Enter the minimum video size:",
         default=int(config['File_Size_Limits']['minimum_video_size']),
         validate=NumberValidator(),
         long_instruction="This value is in bytes (0 is no limit)",
+        vi_mode=manager.vi_mode,
     ).execute()
     minimum_other_size = inquirer.number(
         message="Enter the minimum other file type size:",
         default=int(config['File_Size_Limits']['minimum_other_size']),
         validate=NumberValidator(),
         long_instruction="This value is in bytes (0 is no limit)",
+        vi_mode=manager.vi_mode,
     ).execute()
 
     config['File_Size_Limits']['maximum_image_size'] = int(maximum_image_size)
@@ -247,7 +264,7 @@ def edit_file_size_limits_prompt(config: Dict) -> None:
     config['File_Size_Limits']['minimum_other_size'] = int(minimum_other_size)
 
 
-def edit_ignore_options_prompt(config: Dict) -> None:
+def edit_ignore_options_prompt(manager: Manager, config: Dict) -> None:
     """Edit the ignore options"""
     console.clear()
     console.print("Editing Ignore Options")
@@ -270,6 +287,7 @@ def edit_ignore_options_prompt(config: Dict) -> None:
                    name="Ignore coomer ads when scraping",
                    enabled=config["Ignore_Options"]["ignore_coomer_ads"]),
         ], long_instruction="ARROW KEYS: Move | TAB: Select | ENTER: Confirm",
+        vi_mode=manager.vi_mode,
     ).execute()
 
     for key in config["Ignore_Options"]:
@@ -285,6 +303,7 @@ def edit_ignore_options_prompt(config: Dict) -> None:
         multiselect=True,
         message="Select any sites you want to ignore while scraping:",
         long_instruction="ARROW KEYS: Move | TYPE: Filter | TAB: Select | ENTER: Confirm",
+        vi_mode=manager.vi_mode,
     ).execute()
 
     skip_hosts = [host for host in skip_hosts if host in SupportedDomains.supported_hosts]
@@ -297,13 +316,14 @@ def edit_ignore_options_prompt(config: Dict) -> None:
         multiselect=True,
         message="Select only the sites you want to scrape from:",
         long_instruction="ARROW KEYS: Move | TYPE: Filter | TAB: Select | ENTER: Confirm",
+        vi_mode=manager.vi_mode,
     ).execute()
 
     only_hosts = [host for host in only_hosts if host in SupportedDomains.supported_hosts]
     config["Ignore_Options"]["only_hosts"] = only_hosts
 
 
-def edit_runtime_options_prompt(config: Dict) -> None:
+def edit_runtime_options_prompt(manager: Manager, config: Dict) -> None:
     """Edit the runtime options"""
     console.clear()
     console.print("Editing Runtime Options")
@@ -326,6 +346,7 @@ def edit_runtime_options_prompt(config: Dict) -> None:
                    name="Send unsupported urls to JDownloader to download",
                    enabled=config["Runtime_Options"]["send_unsupported_to_jdownloader"]),
         ], long_instruction="ARROW KEYS: Move | TAB: Select | ENTER: Confirm",
+        vi_mode=manager.vi_mode,
     ).execute()
 
     log_level = inquirer.number(
@@ -333,6 +354,7 @@ def edit_runtime_options_prompt(config: Dict) -> None:
         default=int(config['Runtime_Options']['log_level']),
         validate=NumberValidator(),
         long_instruction="10 is the default (uses pythons logging numerical levels)",
+        vi_mode=manager.vi_mode,
     ).execute()
 
     for key in config["Runtime_Options"]:
@@ -344,43 +366,49 @@ def edit_runtime_options_prompt(config: Dict) -> None:
     config['Runtime_Options']['log_level'] = int(log_level)
 
 
-def edit_sort_options_prompt(config: Dict) -> None:
+def edit_sort_options_prompt(manager: Manager, config: Dict) -> None:
     """Edit the sort options"""
     console.clear()
     console.print("Editing Sort Options")
     config["Sorting"]["sort_downloads"] = False
-    sort_downloads = inquirer.confirm(message="Do you want Cyberdrop-DL to sort files for you?").execute()
+    sort_downloads = inquirer.confirm(message="Do you want Cyberdrop-DL to sort files for you?", vi_mode=manager.vi_mode).execute()
     if sort_downloads:
         config["Sorting"]["sort_downloads"] = True
         sort_folder = inquirer.filepath(
             message="Enter the folder you want to sort files into:",
             default=str(config['Sorting']['sort_folder']),
             validate=PathValidator(is_dir=True, message="Input is not a directory"),
+            vi_mode=manager.vi_mode,
         ).execute()
         sort_incremementer_format = inquirer.text(
             message="Enter the sort incrementer format:",
             default=config['Sorting']['sort_incremementer_format'],
-            validate=EmptyInputValidator("Input should not be empty")
+            validate=EmptyInputValidator("Input should not be empty"),
+            vi_mode=manager.vi_mode,
         ).execute()
         sorted_audio = inquirer.text(
             message="Enter the format you want to sort audio files into:",
             default=config['Sorting']['sorted_audio'],
-            validate=EmptyInputValidator("Input should not be empty")
+            validate=EmptyInputValidator("Input should not be empty"),
+            vi_mode=manager.vi_mode,
         ).execute()
         sorted_video = inquirer.text(
             message="Enter the format you want to sort video files into:",
             default=config['Sorting']['sorted_video'],
-            validate=EmptyInputValidator("Input should not be empty")
+            validate=EmptyInputValidator("Input should not be empty"),
+            vi_mode=manager.vi_mode,
         ).execute()
         sorted_image = inquirer.text(
             message="Enter the format you want to sort image files into:",
             default=config['Sorting']['sorted_image'],
-            validate=EmptyInputValidator("Input should not be empty")
+            validate=EmptyInputValidator("Input should not be empty"),
+            vi_mode=manager.vi_mode,
         ).execute()
         sorted_other = inquirer.text(
             message="Enter the format you want to sort other files into:",
             default=config['Sorting']['sorted_other'],
-            validate=EmptyInputValidator("Input should not be empty")
+            validate=EmptyInputValidator("Input should not be empty"),
+            vi_mode=manager.vi_mode,
         ).execute()
 
         config['Sorting']['sort_folder'] = Path(sort_folder)

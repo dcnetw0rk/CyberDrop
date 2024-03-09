@@ -27,10 +27,9 @@ class EHentaiCrawler(Crawler):
         """Determines where to send the scrape item based on the url"""
         task_id = await self.scraping_progress.add_task(scrape_item.url)
 
-        if not self.warnings_set:
-            await self.set_no_warnings(scrape_item)
-
         if "g" in scrape_item.url.parts:
+            if not self.warnings_set:
+                await self.set_no_warnings(scrape_item)
             await self.album(scrape_item)
         elif "s" in scrape_item.url.parts:
             await self.image(scrape_item)
@@ -52,7 +51,7 @@ class EHentaiCrawler(Crawler):
         images = soup.select("div[class=gdtm] div a")
         for image in images:
             link = URL(image.get('href'))
-            new_scrape_item = await self.create_scrape_item(scrape_item, link, title, True, date)
+            new_scrape_item = await self.create_scrape_item(scrape_item, link, title, True, None, date)
             self.manager.task_group.create_task(self.run(new_scrape_item))
 
         next_page_opts = soup.select('td[onclick="document.location=this.firstChild.href"]')

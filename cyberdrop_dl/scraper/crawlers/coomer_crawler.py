@@ -23,15 +23,11 @@ class CoomerCrawler(Crawler):
         self.api_url = URL("https://coomer.su/api/v1")
         self.request_limiter = AsyncLimiter(10, 1)
 
-        self.cookies_set = False
-
     """~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"""
 
     async def fetch(self, scrape_item: ScrapeItem) -> None:
         """Determines where to send the scrape item based on the url"""
         task_id = await self.scraping_progress.add_task(scrape_item.url)
-
-        await self.set_cookies()
 
         if "thumbnails" in scrape_item.url.parts:
             parts = [x for x in scrape_item.url.parts if x not in ("thumbnail", "/")]
@@ -149,20 +145,6 @@ class CoomerCrawler(Crawler):
                 post_title = post_id + " - " + post_title
 
         new_title = await self.create_title(user, None, None)
-        new_scrape_item = await self.create_scrape_item(old_scrape_item, link, new_title, True, await self.parse_datetime(date))
+        new_scrape_item = await self.create_scrape_item(old_scrape_item, link, new_title, True, None, await self.parse_datetime(date))
         await new_scrape_item.add_to_parent_title(post_title)
         self.manager.task_group.create_task(self.run(new_scrape_item))
-
-    """~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"""
-
-    async def set_cookies(self):
-        """Sets the cookies for the client"""
-        if self.cookies_set:
-            return
-
-        if self.manager.config_manager.authentication_data['DDOS-Guard']['coomer_ddg1']:
-            self.client.client_manager.cookies.update_cookies(
-                {"__ddg1_": self.manager.config_manager.authentication_data['DDOS-Guard']['coomer_ddg1']},
-                response_url=self.ddos_guard_domain)
-
-        self.cookies_set = True

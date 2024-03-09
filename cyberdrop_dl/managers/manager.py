@@ -39,6 +39,7 @@ class Manager:
         self.task_group: asyncio.TaskGroup = field(init=False)
         self.task_list: list = []
         self.scrape_mapper = field(init=False)
+        self.vi_mode: bool = None
 
     def startup(self) -> None:
         """Startup process for the manager"""
@@ -53,6 +54,7 @@ class Manager:
         self.cache_manager.startup(self.path_manager.cache_dir / "cache.yaml")
         self.config_manager = ConfigManager(self)
         self.config_manager.startup()
+        self.vi_mode = self.config_manager.global_settings_data['General']['vi_mode'] if self.args_manager.vi_mode == None else self.args_manager.vi_mode
 
         self.path_manager.startup()
         self.log_manager = LogManager(self)
@@ -118,16 +120,6 @@ class Manager:
                 forum_credentials_provided[f"{forum} Credentials Provided"] = False
 
         gofile_credentials_provided = bool(self.config_manager.authentication_data["GoFile"]["gofile_api_key"])
-        bunkr_ddg_credentials_provided = False
-        coomer_ddg_credentials_provided = False
-        kemono_ddg_credentials_provided = False
-
-        if self.config_manager.authentication_data["DDOS-Guard"]['bunkrr_ddg1'] and self.config_manager.authentication_data["DDOS-Guard"]['bunkrr_ddg2'] and self.config_manager.authentication_data["DDOS-Guard"]['bunkrr_ddgid']:
-            bunkr_ddg_credentials_provided = True
-        if self.config_manager.authentication_data["DDOS-Guard"]['coomer_ddg1']:
-            coomer_ddg_credentials_provided = True
-        if self.config_manager.authentication_data["DDOS-Guard"]['kemono_ddg1']:
-            kemono_ddg_credentials_provided = True
 
         imgur_credentials_provided = bool(self.config_manager.authentication_data["Imgur"]["imgur_client_id"])
         jdownloader_credentials_provided = False
@@ -145,11 +137,6 @@ class Manager:
             "Forums Credentials": forum_credentials_provided,
             "Forums XF Cookies": forum_xf_cookies_provided,
             "GoFile Provided": gofile_credentials_provided,
-            "DDOS-Guard": {
-                "Bunkrr Provided": bunkr_ddg_credentials_provided,
-                "Coomer Provided": coomer_ddg_credentials_provided,
-                "Kemono Provided": kemono_ddg_credentials_provided
-            },
             "Imgur Provided": imgur_credentials_provided,
             "JDownloader Provided": jdownloader_credentials_provided,
             "PixelDrain Provided": pixeldrain_credentials_provided,
