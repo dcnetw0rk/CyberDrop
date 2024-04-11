@@ -13,7 +13,8 @@ from typing import TYPE_CHECKING
 import rich
 from yarl import URL
 
-from cyberdrop_dl.clients.errors import NoExtensionFailure, FailedLoginFailure, InvalidContentTypeFailure
+from cyberdrop_dl.clients.errors import NoExtensionFailure, FailedLoginFailure, InvalidContentTypeFailure, \
+    PasswordProtected
 
 if TYPE_CHECKING:
     from typing import Tuple
@@ -64,6 +65,10 @@ def error_handling_wrapper(func):
             await log(f"Scrape Failed: {link} (No File Extension)", 40)
             await self.manager.log_manager.write_scrape_error_log(link, " No File Extension")
             await self.manager.progress_manager.scrape_stats_progress.add_failure("No File Extension")
+        except PasswordProtected:
+            await log(f"Scrape Failed: {link} (Password Protected)", 40)
+            await self.manager.log_manager.write_unsupported_urls_log(link)
+            await self.manager.progress_manager.scrape_stats_progress.add_failure("Password Protected")
         except FailedLoginFailure:
             await log(f"Scrape Failed: {link} (Failed Login)", 40)
             await self.manager.log_manager.write_scrape_error_log(link, " Failed Login")
@@ -157,6 +162,8 @@ async def get_filename_and_ext(filename: str, forum: bool = False) -> Tuple[str,
         raise NoExtensionFailure()
     if filename_parts[-1].isnumeric() and forum:
         filename_parts = filename_parts[0].rsplit('-', 1)
+    if len(filename_parts[-1]) > 5:
+        raise NoExtensionFailure()
     ext = "." + filename_parts[-1].lower()
     filename = filename_parts[0][:MAX_NAME_LENGTHS['FILE']] if len(filename_parts[0]) > MAX_NAME_LENGTHS['FILE'] else filename_parts[0]
     filename = filename.strip()
