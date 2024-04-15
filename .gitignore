@@ -3,6 +3,8 @@
 /Test-AppData-Dir/
 /AppData/
 /Downloads/
+/Old Files/
+/sandbox/
 
 # Python cache
 __pycache__
