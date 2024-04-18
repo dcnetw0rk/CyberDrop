@@ -20,6 +20,7 @@ class OmegaScansCrawler(Crawler):
     def __init__(self, manager: Manager):
         super().__init__(manager, "omegascans", "OmegaScans")
         self.primary_base_domain = URL("https://omegascans.org")
+        self.api_url = "https://api.omegascans.org/chapter/query?page={}&perPage={}&series_id={}"
         self.request_limiter = AsyncLimiter(10, 1)
 
     """~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"""
@@ -43,15 +44,29 @@ class OmegaScansCrawler(Crawler):
         async with self.request_limiter:
             soup = await self.client.get_BS4(self.domain, scrape_item.url)
 
-        chapters = soup.select("a[class*=text-gray-50]")
-        for chapter in chapters:
-            chapter_path = chapter.get("href")
-            if chapter_path.startswith("/"):
-                chapter_path = self.primary_base_domain / chapter_path[1:]
-            else:
-                chapter_path = URL(chapter_path)
-            new_scrape_item = await self.create_scrape_item(scrape_item, chapter_path, "", True)
-            self.manager.task_group.create_task(self.run(new_scrape_item))
+        scripts = soup.select("script")
+        for script in scripts:
+            if "series_id" in script.get_text():
+                series_id = script.get_text().split('series_id\\":')[1].split(",")[0]
+                break
+
+        page_number = 1
+        number_per_page = 30
+        while True:
+            api_url = URL(self.api_url.format(page_number, number_per_page, series_id))
+            async with self.request_limiter:
+                JSON_Obj = await self.client.get_json(self.domain, api_url)
+            if not JSON_Obj:
+                break
+
+            for chapter in JSON_Obj['data']:
+                chapter_url = scrape_item.url / chapter['chapter_slug']
+                new_scrape_item = await self.create_scrape_item(scrape_item, chapter_url, "", True)
+                self.manager.task_group.create_task(self.run(new_scrape_item))
+
+            if JSON_Obj['meta']['current_page'] == JSON_Obj['meta']['last_page']:
+                break
+            page_number += 1
 
     @error_handling_wrapper
     async def chapter(self, scrape_item: ScrapeItem) -> None:
@@ -70,7 +85,7 @@ class OmegaScansCrawler(Crawler):
         await scrape_item.add_to_parent_title(series_title)
         await scrape_item.add_to_parent_title(chapter_title)
 
-        date = soup.select_one('h2[class="font-semibold font-sans text-gray-400 text-xs"]').get_text()
+        date = soup.select('h2[class="font-semibold font-sans text-muted-foreground text-xs"]')[-1].get_text()
         try:
             date = await self.parse_datetime_standard(date)
         except ValueError:
