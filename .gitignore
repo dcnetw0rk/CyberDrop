@@ -3,8 +3,6 @@
 /Test-AppData-Dir/
 /AppData/
 /Downloads/
-/Old Files/
-/sandbox/
 
 # Python cache
 __pycache__
@@ -12,3 +10,5 @@ __pycache__
 # Custom entries:
 URLs_NEXT.txt
 URLs.txt
+/Old Files/
+/sandbox/
