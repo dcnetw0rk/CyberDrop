@@ -11,8 +11,8 @@ class SupportedDomains:
                                                   "jpg.homes", "jpg.fish", "jpg.fishing", "jpg.pet", "jpeg.pet",
                                                   "jpg1.su", "jpg2.su", "jpg3.su", "jpg4.su", "host.church", "kemono",
                                                   "leakedmodels", "mediafire", "nudostar.com", "nudostar.tv",
-                                                  "omegascans", "pimpandhost", "pixeldrain", "postimg", "reddit",
-                                                  "redd.it", "redgifs", "rule34.xxx", "rule34.xyz", "saint",
+                                                  "omegascans", "pimpandhost", "pixeldrain", "postimg", "realbooru", 
+                                                  "reddit", "redd.it", "redgifs", "rule34.xxx", "rule34.xyz", "saint",
                                                   "scrolller", "simpcity", "socialmediagirls", "toonily", "xbunker",
                                                   "xbunkr")
 
@@ -21,8 +21,5 @@ class SupportedDomains:
     supported_forums_map = {"celebforum.to": "celebforum", "f95zone.to": "f95zone", "leakedmodels.com": "leakedmodels",
                             "nudostar.com": "nudostar", "simpcity.su": "simpcity",
                             "forums.socialmediagirls.com": "socialmediagirls", "xbunker.nu": "xbunker"}
-
-    supported_ddos_guard: ClassVar[Tuple[str, ...]] = (".bunkrr.su", ".coomer.su", ".kemono.su")
-    supported_ddos_guard_map = {".bunkrr.su": "bunkrr", ".coomer.su": "coomer", ".kemono.su": "kemono"}
 
     sites: List[str]

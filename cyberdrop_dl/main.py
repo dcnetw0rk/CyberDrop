@@ -105,7 +105,7 @@ async def director(manager: Manager) -> None:
         await log("Starting UI...", 20)
         try:
             if not manager.args_manager.no_ui:
-                with Live(manager.progress_manager.layout, refresh_per_second=10):
+                with Live(manager.progress_manager.layout, refresh_per_second=manager.config_manager.settings_data['Runtime_Options']['ui_refresh_rate']):
                     await runtime(manager)
             else:
                 await runtime(manager)
@@ -119,7 +119,11 @@ async def director(manager: Manager) -> None:
         await clear_screen_proc.wait()
 
         await log("Running Post-Download Processes...", 20)
-        if manager.config_manager.settings_data['Sorting']['sort_downloads'] and not manager.args_manager.retry:
+        if isinstance(manager.args_manager.sort_downloads, bool):
+            if manager.args_manager.sort_downloads:
+                sorter = Sorter(manager)
+                await sorter.sort()
+        elif manager.config_manager.settings_data['Sorting']['sort_downloads'] and not manager.args_manager.retry:
             sorter = Sorter(manager)
             await sorter.sort()
         await check_partials_and_empty_folders(manager)
