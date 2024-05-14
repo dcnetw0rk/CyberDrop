@@ -159,11 +159,6 @@ class Downloader:
         if not await self.manager.download_manager.check_allowed_filetype(media_item):
             await log(f"Download Skip {media_item.url} due to filetype restrictions", 10)
             return False
-        if self.manager.config_manager.settings_data['Download_Options']['skip_download_mark_completed']:
-            await log(f"Download Skip {media_item.url} due to mark completed option", 10)
-            await self.mark_incomplete(media_item)
-            await self.mark_completed(media_item)
-            return False
         return True
 
     async def set_file_datetime(self, media_item: MediaItem, complete_file: Path) -> None:
@@ -204,14 +199,13 @@ class Downloader:
                 await self.manager.progress_manager.download_progress.add_skipped()
                 return
 
-            await self.client.download_file(self.manager, self.domain, media_item)
+            downloaded = await self.client.download_file(self.manager, self.domain, media_item)
             
-            os.chmod(media_item.complete_file, 0o666)
-            
-            await self.set_file_datetime(media_item, media_item.complete_file)
-            await self.attempt_task_removal(media_item)
-            await self.manager.progress_manager.download_progress.add_completed()
-            return
+            if downloaded:
+                os.chmod(media_item.complete_file, 0o666)
+                await self.set_file_datetime(media_item, media_item.complete_file)
+                await self.attempt_task_removal(media_item)
+                await self.manager.progress_manager.download_progress.add_completed()
 
         except (aiohttp.ClientPayloadError, aiohttp.ClientOSError, aiohttp.ClientResponseError, ConnectionResetError,
                 DownloadFailure, FileNotFoundError, PermissionError, aiohttp.ServerDisconnectedError, 

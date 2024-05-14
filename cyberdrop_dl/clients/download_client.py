@@ -78,14 +78,20 @@ class DownloadClient:
 
     @limiter
     async def _download(self, domain: str, manager: Manager, media_item: MediaItem,
-                        save_content: Callable[[aiohttp.StreamReader], Coroutine[Any, Any, None]], client_session: ClientSession) -> None:
+                        save_content: Callable[[aiohttp.StreamReader], Coroutine[Any, Any, None]], client_session: ClientSession) -> bool:
         """Downloads a file"""
         headers = copy.deepcopy(self._headers)
         headers['Referer'] = str(media_item.referer)
         if domain == "pixeldrain":
             if self.manager.config_manager.authentication_data['PixelDrain']['pixeldrain_api_key']:
                 headers["Authorization"] = await self.manager.download_manager.basic_auth("Cyberdrop-DL", self.manager.config_manager.authentication_data['PixelDrain']['pixeldrain_api_key'])
-        if isinstance(media_item.partial_file, Path):
+
+        downloaded_filename = await self.manager.db_manager.history_table.get_downloaded_filename(domain, media_item)
+        download_dir = await self.get_download_dir(media_item)
+        media_item.partial_file = download_dir / f"{downloaded_filename}.part"
+        
+        resume_point = 0
+        if isinstance(media_item.partial_file, Path) and media_item.partial_file.exists():
             resume_point = media_item.partial_file.stat().st_size if media_item.partial_file.exists() else 0
             headers['Range'] = f'bytes={resume_point}-'
 
@@ -99,19 +105,18 @@ class DownloadClient:
             await self.client_manager.check_http_status(resp, download=True)
             content_type = resp.headers.get('Content-Type')
             
-            if not isinstance(media_item.filesize, int):
-                media_item.filesize = int(resp.headers.get('Content-Length', '0'))
-            if not isinstance(media_item.partial_file, Path):
+            media_item.filesize = int(resp.headers.get('Content-Length', '0'))
+            if not isinstance(media_item.complete_file, Path):
                 proceed, skip = await self.get_final_file_info(media_item, domain)
                 await self.mark_incomplete(media_item, domain)
+                if skip:
+                    await self.manager.progress_manager.download_progress.add_skipped()
+                    return False
                 if not proceed:
                     await log(f"Skipping {media_item.url} as it has already been downloaded", 10)
                     await self.manager.progress_manager.download_progress.add_previously_completed(False)
                     await self.mark_completed(media_item, domain)
-                    return
-                if skip:
-                    await self.manager.progress_manager.download_progress.add_skipped()
-                    return
+                    return False
             
             ext = Path(media_item.filename).suffix.lower()
             if content_type and any(s in content_type.lower() for s in ('html', 'text')) and ext not in FILE_FORMATS['Text']:
@@ -120,12 +125,13 @@ class DownloadClient:
             if resp.status != HTTPStatus.PARTIAL_CONTENT and media_item.partial_file.is_file():
                 media_item.partial_file.unlink()
                 
-            media_item.task_id = await self.manager.progress_manager.file_progress.add_task(f"({domain.upper()}) {media_item.filename}", media_item.filesize)
+            media_item.task_id = await self.manager.progress_manager.file_progress.add_task(f"({domain.upper()}) {media_item.filename}", media_item.filesize + resume_point)
             if media_item.partial_file.is_file():
                 resume_point = media_item.partial_file.stat().st_size
                 await self.manager.progress_manager.file_progress.advance_file(media_item.task_id, resume_point)
 
             await save_content(resp.content)
+            return True
 
     async def _append_content(self, media_item, content: aiohttp.StreamReader, update_progress: partial) -> None:
         """Appends content to a file"""
@@ -144,14 +150,23 @@ class DownloadClient:
             media_item.partial_file.unlink()
             raise DownloadFailure(status=HTTPStatus.INTERNAL_SERVER_ERROR, message="File is empty")
 
-    async def download_file(self, manager: Manager, domain: str, media_item: MediaItem) -> None:
+    async def download_file(self, manager: Manager, domain: str, media_item: MediaItem) -> bool:
         """Starts a file"""
+        if self.manager.config_manager.settings_data['Download_Options']['skip_download_mark_completed']:
+            await log(f"Download Skip {media_item.url} due to mark completed option", 10)
+            await self.manager.progress_manager.download_progress.add_skipped()
+            await self.mark_incomplete(media_item, domain)
+            await self.mark_completed(media_item, domain)
+            return False
+        
         async def save_content(content: aiohttp.StreamReader) -> None:
             await self._append_content(media_item, content, partial(manager.progress_manager.file_progress.advance_file, media_item.task_id))
 
-        await self._download(domain, manager, media_item, save_content)
-        media_item.partial_file.rename(media_item.complete_file)
-        await self.mark_completed(media_item, domain)
+        downloaded = await self._download(domain, manager, media_item, save_content)
+        if downloaded:
+            media_item.partial_file.rename(media_item.complete_file)
+            await self.mark_completed(media_item, domain)
+        return downloaded
         
     """~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"""
     
