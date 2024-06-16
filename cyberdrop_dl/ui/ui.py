@@ -28,9 +28,7 @@ def program_ui(manager: Manager):
         console.clear()
         console.print(f"[bold]Cyberdrop Downloader (V{str(__version__)})[/bold]")
         console.print(f"[bold]Current Config:[/bold] {manager.config_manager.loaded_config}")
-        
-        #vi_mode = manager.config_manager.settings_data['General']['input_file'] if not manager.args_manager.vi_mode else manager.args_manager.vi_mode
-            
+
         action = main_prompt(manager)
 
         # Download
@@ -143,10 +141,6 @@ def program_ui(manager: Manager):
         elif action == 9:
             import_cyberdrop_v4_items_prompt(manager)
 
-        # Donate
-        elif action == 10:
-            donations_prompt(manager)
-
         # Exit
-        elif action == 11:
+        elif action == 10:
             exit(0)
