@@ -1,12 +1,12 @@
-INFO     : 2024-08-16 14:55:25,998 : utilities.py:103 : Starting Async Processes...
-DEBUG    : 2024-08-16 14:55:25,999 : utilities.py:103 : Starting Cyberdrop-DL Process for cyberdrop.conf Config
-DEBUG    : 2024-08-16 14:55:26,000 : utilities.py:103 : Running version 5.3.31
-DEBUG    : 2024-08-16 14:55:26,000 : utilities.py:103 : Using Config: cyberdrop.conf
-DEBUG    : 2024-08-16 14:55:26,000 : utilities.py:103 : Using Config File: AppData/Configs/cyberdrop.conf/settings.yaml
-DEBUG    : 2024-08-16 14:55:26,000 : utilities.py:103 : Using Input File: /Users/dcnetwork/CyberDrop/URLs.txt
-DEBUG    : 2024-08-16 14:55:26,000 : utilities.py:103 : Using Download Folder: /Users/dcnetwork/CyberDrop/Downloads
-DEBUG    : 2024-08-16 14:55:26,000 : utilities.py:103 : Using History File: AppData/Cache/cyberdrop.db
-DEBUG    : 2024-08-16 14:55:26,000 : utilities.py:103 : Using Authentication: 
+INFO     : 2024-08-24 13:58:21,450 : utilities.py:103 : Starting Async Processes...
+DEBUG    : 2024-08-24 13:58:21,451 : utilities.py:103 : Starting Cyberdrop-DL Process for cyberdrop.conf Config
+DEBUG    : 2024-08-24 13:58:21,451 : utilities.py:103 : Running version 5.3.31
+DEBUG    : 2024-08-24 13:58:21,451 : utilities.py:103 : Using Config: cyberdrop.conf
+DEBUG    : 2024-08-24 13:58:21,451 : utilities.py:103 : Using Config File: AppData/Configs/cyberdrop.conf/settings.yaml
+DEBUG    : 2024-08-24 13:58:21,451 : utilities.py:103 : Using Input File: /Users/dcnetwork/CyberDrop/URLs.txt
+DEBUG    : 2024-08-24 13:58:21,451 : utilities.py:103 : Using Download Folder: /Users/dcnetwork/CyberDrop/Downloads
+DEBUG    : 2024-08-24 13:58:21,451 : utilities.py:103 : Using History File: AppData/Cache/cyberdrop.db
+DEBUG    : 2024-08-24 13:58:21,451 : utilities.py:103 : Using Authentication: 
 {
     "Forums Credentials": {
         "celebforum Credentials Provided": false,
@@ -32,7 +32,7 @@ DEBUG    : 2024-08-16 14:55:26,000 : utilities.py:103 : Using Authentication:
     "PixelDrain Provided": false,
     "Reddit Provided": true
 }
-DEBUG    : 2024-08-16 14:55:26,001 : utilities.py:103 : Using Settings: 
+DEBUG    : 2024-08-24 13:58:21,451 : utilities.py:103 : Using Settings: 
 {
     "Download_Options": {
         "block_download_sub_folders": false,
@@ -94,7 +94,7 @@ DEBUG    : 2024-08-16 14:55:26,001 : utilities.py:103 : Using Settings:
         "sorted_video": "{sort_dir}/{base_dir}/Videos/{filename}{ext}"
     }
 }
-DEBUG    : 2024-08-16 14:55:26,001 : utilities.py:103 : Using Global Settings: 
+DEBUG    : 2024-08-24 13:58:21,451 : utilities.py:103 : Using Global Settings: 
 {
     "General": {
         "allow_insecure_connections": false,
@@ -121,67 +121,28 @@ DEBUG    : 2024-08-16 14:55:26,001 : utilities.py:103 : Using Global Settings:
         "vi_mode": false
     }
 }
-INFO     : 2024-08-16 14:55:26,002 : utilities.py:103 : Starting UI...
-INFO     : 2024-08-16 14:55:28,982 : utilities.py:103 : Scrape Starting: https://bunkr.ax/a/VIFMOkJi
-INFO     : 2024-08-16 14:55:28,984 : utilities.py:103 : Scrape Starting: https://www.erome.com/a/SA2runYN
-DEBUG    : 2024-08-16 14:55:29,359 : utilities.py:103 : Skipping https://v56.erome.com/2272/SA2runYN/HqWfUwWG_720p.mp4 as it has already been downloaded
-DEBUG    : 2024-08-16 14:55:29,359 : utilities.py:103 : Skipping https://v56.erome.com/2272/SA2runYN/QfLNLFMm_720p.mp4 as it has already been downloaded
-DEBUG    : 2024-08-16 14:55:29,360 : utilities.py:103 : Skipping https://v56.erome.com/2272/SA2runYN/yWSmsjwP_720p.mp4 as it has already been downloaded
-DEBUG    : 2024-08-16 14:55:29,361 : utilities.py:103 : Skipping https://v56.erome.com/2272/SA2runYN/nQnroSF5_720p.mp4 as it has already been downloaded
-DEBUG    : 2024-08-16 14:55:29,361 : utilities.py:103 : Skipping https://v56.erome.com/2272/SA2runYN/Fl146XQB_720p.mp4 as it has already been downloaded
-DEBUG    : 2024-08-16 14:55:29,361 : utilities.py:103 : Skipping https://v56.erome.com/2272/SA2runYN/R9bV0poR_720p.mp4 as it has already been downloaded
-DEBUG    : 2024-08-16 14:55:29,361 : utilities.py:103 : Skipping https://v56.erome.com/2272/SA2runYN/jKWdMxpj_720p.mp4 as it has already been downloaded
-INFO     : 2024-08-16 14:55:29,361 : utilities.py:103 : Scrape Finished: https://www.erome.com/a/SA2runYN
-DEBUG    : 2024-08-16 14:55:29,421 : utilities.py:103 : Skipping https://kebab.bunkr.ru/0hfbvx5meavt5py10xqeu_source-VdMM479T-l3GHxbfS.mp4?download=true as it has already been downloaded
-DEBUG    : 2024-08-16 14:55:29,422 : utilities.py:103 : Skipping https://kebab.bunkr.ru/0henzp5noy7bngix41spo_source-8NBn61XM-IvFa9cRx.mp4?download=true as it has already been downloaded
-DEBUG    : 2024-08-16 14:55:29,422 : utilities.py:103 : Skipping https://kebab.bunkr.ru/0hddziqwj1xtvhfedhfbg_source-23gxT7W9-5VCdidS4.mp4?download=true as it has already been downloaded
-DEBUG    : 2024-08-16 14:55:29,422 : utilities.py:103 : Skipping https://kebab.bunkr.ru/0hek1jc6ug98ztjw7iwow_source-XLYho9m8-jbokdAyj.mp4?download=true as it has already been downloaded
-DEBUG    : 2024-08-16 14:55:29,422 : utilities.py:103 : Skipping https://kebab.bunkr.ru/0hek1jchaev8u1mrcet7c_source-qlM0EKMt-rPIEmdUN.mp4?download=true as it has already been downloaded
-DEBUG    : 2024-08-16 14:55:29,422 : utilities.py:103 : Skipping https://kebab.bunkr.ru/0he5jczd6tj3qzxyygci6_source-MEAqYExv-cvIgbv8u.mp4?download=true as it has already been downloaded
-DEBUG    : 2024-08-16 14:55:29,423 : utilities.py:103 : Skipping https://kebab.bunkr.ru/0hdph1gnvs4ecp5xpb099_source-qV5KuhEj-8wmbYKIH.mp4?download=true as it has already been downloaded
-DEBUG    : 2024-08-16 14:55:29,423 : utilities.py:103 : Skipping https://kebab.bunkr.ru/0hfkhyyfrbf5btkjex1ds_source-HmA6mRw8-h04AjCEz.mp4?download=true as it has already been downloaded
-DEBUG    : 2024-08-16 14:55:29,423 : utilities.py:103 : Skipping https://kebab.bunkr.ru/0hdkpn9txt79bzl332e8a_source-sPmS59jG-ho9MObg6.mp4?download=true as it has already been downloaded
-DEBUG    : 2024-08-16 14:55:29,423 : utilities.py:103 : Skipping https://kebab.bunkr.ru/0hd026marx8l0s86w8oi5_source-gGfmLDKw-ftRkeG3u.mp4?download=true as it has already been downloaded
-DEBUG    : 2024-08-16 14:55:29,423 : utilities.py:103 : Skipping https://kebab.bunkr.ru/0hfuxkhlkb5leejmb35zv_source-9cebfU6I-SuRYHdQa.mp4?download=true as it has already been downloaded
-DEBUG    : 2024-08-16 14:55:29,423 : utilities.py:103 : Skipping https://kebab.bunkr.ru/0hdezg54uqq8shq2kb8ig_source-6cRkJTZA-Rm5ADoNL.mp4?download=true as it has already been downloaded
-DEBUG    : 2024-08-16 14:55:29,423 : utilities.py:103 : Skipping https://kebab.bunkr.ru/0heql2mmxggd1x1nl37r8_source-NLnc8jne-QzzYUpF2.mp4?download=true as it has already been downloaded
-DEBUG    : 2024-08-16 14:55:29,424 : utilities.py:103 : Skipping https://kebab.bunkr.ru/0hfp0k9rqri8qqgzxdiz3_source-rO9CGR5U-hqFxLdQZ.mp4?download=true as it has already been downloaded
-DEBUG    : 2024-08-16 14:55:29,424 : utilities.py:103 : Skipping https://kebab.bunkr.ru/0hens40edrqlv5uwqcn7u_source-Ei1VAdIg-nT9RNgHX.mp4?download=true as it has already been downloaded
-DEBUG    : 2024-08-16 14:55:29,424 : utilities.py:103 : Skipping https://kebab.bunkr.ru/0hdva5f4pibmz2g3n7c58_source-3x88Ecmb-dKBmXxCW.mp4?download=true as it has already been downloaded
-DEBUG    : 2024-08-16 14:55:29,424 : utilities.py:103 : Skipping https://kebab.bunkr.ru/0hd16t6g371nu28p5t74n_source-YetW8avH-4DuvKwpw.mp4?download=true as it has already been downloaded
-DEBUG    : 2024-08-16 14:55:29,424 : utilities.py:103 : Skipping https://kebab.bunkr.ru/0hfp2ymt6p3msf3xsbb7l_source-Df0EPe3F-KVlnZEND.mp4?download=true as it has already been downloaded
-DEBUG    : 2024-08-16 14:55:29,424 : utilities.py:103 : Skipping https://kebab.bunkr.ru/0hdlgqzqyi37aubeb5w5f_source-NpnYKTZP-bJJajgag.mp4?download=true as it has already been downloaded
-DEBUG    : 2024-08-16 14:55:29,424 : utilities.py:103 : Skipping https://kebab.bunkr.ru/0hekgb5z2cqbmvrrzmb3o_source-g94v3t6t-idMA2Rew.mp4?download=true as it has already been downloaded
-DEBUG    : 2024-08-16 14:55:29,425 : utilities.py:103 : Skipping https://kebab.bunkr.ru/0hddcdx161xe7hvj0o7p5_source-cYj1IdaS-3DCDyLoN.mp4?download=true as it has already been downloaded
-DEBUG    : 2024-08-16 14:55:29,425 : utilities.py:103 : Skipping https://kebab.bunkr.ru/0hbu70wqvwdbx9zim5t9x_source-gJVNB0mW-tc5SovU0.mp4?download=true as it has already been downloaded
-DEBUG    : 2024-08-16 14:55:29,425 : utilities.py:103 : Skipping https://kebab.bunkr.ru/0hek016ci46fj1om1p1ur_source-FEwpREXZ-rvALvLhV.mp4?download=true as it has already been downloaded
-DEBUG    : 2024-08-16 14:55:29,425 : utilities.py:103 : Skipping https://kebab.bunkr.ru/0hesvwopxkvhgez9cibw2_source-wIq69g0e-euHfK1yZ.mp4?download=true as it has already been downloaded
-DEBUG    : 2024-08-16 14:55:29,425 : utilities.py:103 : Skipping https://kebab.bunkr.ru/0hdga3mc6xzf6c2e8ofg7_source-HBTc9uiH-E5JjDgrN.mp4?download=true as it has already been downloaded
-DEBUG    : 2024-08-16 14:55:29,425 : utilities.py:103 : Skipping https://kebab.bunkr.ru/0hcjv9rs03mo3pruw1icy_source-SRSfUff3-I1sfbsEF.mp4?download=true as it has already been downloaded
-INFO     : 2024-08-16 14:55:29,425 : utilities.py:103 : Scrape Finished: https://bunkr.sk/a/VIFMOkJi
-INFO     : 2024-08-16 14:55:29,425 : utilities.py:103 : Scrape Starting: https://bunkr.ax/a/DSdVJXMo
-DEBUG    : 2024-08-16 14:55:29,867 : utilities.py:103 : Skipping https://milkshake.bunkr.ru/0gyk0nwu5ktd94nq6d8lq_720p-YXx9kie3.mp4?download=true as it has already been downloaded
-DEBUG    : 2024-08-16 14:55:29,868 : utilities.py:103 : Skipping https://milkshake.bunkr.ru/Larissa-grandee-akVVVLf3.mp4?download=true as it has already been downloaded
-DEBUG    : 2024-08-16 14:55:29,868 : utilities.py:103 : Skipping https://milkshake.bunkr.ru/0gzdamgo13y2jh4k2fqdp_720p-floeMObU.mp4?download=true as it has already been downloaded
-DEBUG    : 2024-08-16 14:55:29,869 : utilities.py:103 : Skipping https://milkshake.bunkr.ru/0gwy4j62prj6lr1mzumap_720p-oeGnR6Om.mp4?download=true as it has already been downloaded
-DEBUG    : 2024-08-16 14:55:29,869 : utilities.py:103 : Skipping https://milkshake.bunkr.ru/Larissa-grande-ONQsmF0Z.mp4?download=true as it has already been downloaded
-INFO     : 2024-08-16 14:55:29,870 : utilities.py:103 : Scrape Finished: https://bunkr.sk/a/DSdVJXMo
-INFO     : 2024-08-16 14:55:29,887 : utilities.py:116 : Running Post-Download Processes For Config: cyberdrop.conf...
-INFO     : 2024-08-16 14:55:29,887 : utilities.py:116 : Deleting partial downloads...
-INFO     : 2024-08-16 14:55:29,901 : utilities.py:116 : Checking for empty folders...
-INFO     : 2024-08-16 14:55:29,904 : utilities.py:103 : Printing Stats...
-INFO     : 2024-08-16 14:55:29,904 : utilities.py:116 : 
+INFO     : 2024-08-24 13:58:21,464 : utilities.py:103 : Starting UI...
+INFO     : 2024-08-24 13:58:29,233 : utilities.py:103 : Scrape Starting: https://simpcity.su/threads/stellafrancisdior-stella-f-dior.80638
+ERROR    : 2024-08-24 13:59:20,630 : utilities.py:103 : Scrape Failed: https://simpcity.su/login (Failed Login)
+ERROR    : 2024-08-24 13:59:20,631 : utilities.py:103 : SimpCity login failed. Skipping.
+INFO     : 2024-08-24 13:59:20,631 : utilities.py:103 : Scrape Finished: https://simpcity.su/threads/stellafrancisdior-stella-f-dior.80638
+INFO     : 2024-08-24 13:59:20,648 : utilities.py:116 : Running Post-Download Processes For Config: cyberdrop.conf...
+INFO     : 2024-08-24 13:59:20,648 : utilities.py:116 : Deleting partial downloads...
+INFO     : 2024-08-24 13:59:20,651 : utilities.py:116 : Checking for empty folders...
+INFO     : 2024-08-24 13:59:20,651 : utilities.py:103 : Printing Stats...
+INFO     : 2024-08-24 13:59:20,651 : utilities.py:116 : 
 Download Stats:
-INFO     : 2024-08-16 14:55:29,904 : utilities.py:116 : Downloaded 0 files
-INFO     : 2024-08-16 14:55:29,904 : utilities.py:116 : Previously Downloaded 38 files
-INFO     : 2024-08-16 14:55:29,904 : utilities.py:116 : Skipped By Config 0 files
-INFO     : 2024-08-16 14:55:29,905 : utilities.py:116 : Failed 0 files
-INFO     : 2024-08-16 14:55:29,905 : utilities.py:116 : 
+INFO     : 2024-08-24 13:59:20,652 : utilities.py:116 : Downloaded 0 files
+INFO     : 2024-08-24 13:59:20,652 : utilities.py:116 : Previously Downloaded 0 files
+INFO     : 2024-08-24 13:59:20,652 : utilities.py:116 : Skipped By Config 0 files
+INFO     : 2024-08-24 13:59:20,652 : utilities.py:116 : Failed 0 files
+INFO     : 2024-08-24 13:59:20,652 : utilities.py:116 : 
 Scrape Failures:
-INFO     : 2024-08-16 14:55:29,905 : utilities.py:116 : 
+INFO     : 2024-08-24 13:59:20,652 : utilities.py:116 : Scrape Failures (Failed Login): 1
+INFO     : 2024-08-24 13:59:20,652 : utilities.py:116 : 
 Download Failures:
-INFO     : 2024-08-16 14:55:29,905 : utilities.py:103 : Checking for Program End...
-INFO     : 2024-08-16 14:55:29,905 : utilities.py:103 : Checking for Updates...
-INFO     : 2024-08-16 14:55:30,310 : utilities.py:103 : Closing Program...
-INFO     : 2024-08-16 14:55:30,311 : utilities.py:116 : 
+INFO     : 2024-08-24 13:59:20,652 : utilities.py:103 : Checking for Program End...
+INFO     : 2024-08-24 13:59:20,653 : utilities.py:103 : Checking for Updates...
+INFO     : 2024-08-24 13:59:24,934 : utilities.py:103 : Closing Program...
+INFO     : 2024-08-24 13:59:24,935 : utilities.py:116 : 
 Finished downloading. Enjoy :)
